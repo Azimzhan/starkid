@@ -27,7 +27,7 @@
     
     <div class="col-md-12">
         <div class="row">
-            <div class="col-md-4 d-flex align-items-stretch">
+            <div class="col-md-4">
                 <div class="card bg-light justify-content-center">
                     <div class="card-body">
                         <div class="row">
@@ -44,16 +44,34 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-4 d-flex align-items-stretch">
+            <div class="col-md-4">
                 <div class="card bg-light">
                     <div class="card-body">
                         <div class="row">
                             <div class="col-md-4 offset-md-4">
                                 <img src="{{asset('img/medal.svg')}}" class="img-fluid">
                             </div>
-                            <div class="col-md-12 mt-2 text-center justify-content-center align-self-center">
+                            <div class="col-md-12 mt-3 text-center justify-content-center align-self-center">
                                 <p><i data-feather="lock" class="svg-icon text-danger"></i>Внимательный</p>
                                 <p class="font-10">Ответьте на контрольные вопросы с первого раза</p>
+                                {{-- <p class="font-10">За прохождение первого урока курса</p> --}}
+                            </div>
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="card bg-light">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-4 offset-md-4">
+                                <img src="{{asset('img/trophy.svg')}}" class="img-fluid">
+                            </div>
+                            <div class="col-md-12 mt-3 text-center justify-content-center align-self-center">
+                                <p><i data-feather="lock" class="svg-icon text-danger"></i>Лучший ученик</p>
+                                <p class="font-10">Закончите курс с отличными оценками</p>
                                 {{-- <p class="font-10">За прохождение первого урока курса</p> --}}
                             </div>
                         </div>

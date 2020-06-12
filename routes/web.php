@@ -11,13 +11,6 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
-
-Route::get('/dash', function () {
-    return view('main.dashboard');
-});
 
 Route::get('/about', function () {
     return view('main.about-course');
@@ -39,14 +32,41 @@ Route::get('/lesson', function () {
     return view('main.lesson');
 });
 
-Route::get('/add/course', function () {
-    return view('main.add-course');
-});
-
 Route::get('/awards', function () {
     return view('main.awards');
 });
 
+Route::get('/lessons-info', function () {
+    return view('main.lessons-info');
+});
+
+Route::get('/manage/courses', function () {
+    return view('main.manage-course');
+});
+
+
+
+
+Route::get('/', function () {
+    return view('welcome');
+});
+
 Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/home', 'CourseController@index')->middleware('auth');
+
+Route::group(['prefix'=>'add','middleware'=>'isTeacher'], function () {
+    Route::get('/course', 'CourseController@addCourseIndex')->middleware('auth');
+});
+
+// MARK: API routes
+Route::post('add/course', 'CourseController@addCourse');
+
+Route::get('/get/user', 'CourseController@get_user_data');
+Route::get('/get/lessons/{id}', 'LessonController@getAllCourseLessons');
+Route::get('/get/lesson/{id}/comments', 'LessonController@getLessonComments');
+Route::get('/get/lesson/{id}/docs', 'LessonController@getLessonDocs');
+
+Route::get('/url', function () {
+    return response()->json([url('/')]);
+});

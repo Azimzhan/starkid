@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Starkid - Главная</title>
+    <title>Stark-Edu - Главная</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="shortcut icon" type="image/png" href="{{ asset('favicon.ico') }}" />
     <meta name="theme-color" content="#3a9fff">
@@ -62,7 +62,7 @@
                                 <span id="typed"></span>
                             </h2>
                             <div class="site__box-link">
-                                <button class="btn btn--width"  data-toggle="modal" data-target="#myModal">Пройти пробный урок</button>
+                                <a href="{{url('/login')}}" class="btn btn--width">Пройти пробный урок</a>
                             </div>
                             <br>
                         </div>

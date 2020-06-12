@@ -6,8 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <!-- Tell the browser to be responsive to screen width -->
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="">
-    <meta name="author" content="">
+    <meta name="csrf-token" content="{{csrf_token()}}">
     <!-- Favicon icon -->
     <link rel="shortcut icon" type="image/png" href="{{ asset('favicon.ico') }}" />
     <title>Starkid</title>
@@ -95,10 +94,10 @@
                             <a class="nav-link dropdown-toggle pl-md-3 position-relative" href="javascript:void(0)"
                                 id="bell" role="button" data-toggle="dropdown" aria-haspopup="true"
                                 aria-expanded="false">
-                                <span><i data-feather="bell" class="svg-icon"></i></span>
+                                <span><i data-feather="award" class="svg-icon"></i></span>
                                 <span class="badge badge-primary notify-no rounded-circle">5</span>
                             </a>
-                            <div class="dropdown-menu dropdown-menu-left mailbox animated bounceInDown">
+                            {{-- <div class="dropdown-menu dropdown-menu-left mailbox animated bounceInDown">
                                 <ul class="list-style-none">
                                     <li>
                                         <div class="message-center notifications position-relative">
@@ -164,7 +163,7 @@
                                         </a>
                                     </li>
                                 </ul>
-                            </div>
+                            </div> --}}
                         </li>
                         <!-- End Notification -->
                         
@@ -191,24 +190,32 @@
                         <!-- User profile and search -->
                         <!-- ============================================================== -->
                         <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="javascript:void(0)" data-toggle="dropdown"
+                            <a class="nav-link dropdown-toggle" data-toggle="dropdown"
                                 aria-haspopup="true" aria-expanded="false">
-                                <img src="{{asset('assets/images/users/profile-pic.jpg')}}" alt="user" class="rounded-circle"
+                                <img src="https://www.oneworldplayproject.com/wp-content/uploads/2016/03/avatar-1024x1024.jpg" alt="user" class="rounded-circle"
                                     width="40">
                                 <span class="ml-2 d-none d-lg-inline-block"><span>Привет,</span> <span
-                                        class="text-dark">Азимжан</span> <i data-feather="chevron-down"
+                                        class="text-dark">{{ Auth::user()->name }}</span> <i data-feather="chevron-down"
                                         class="svg-icon"></i></span>
                             </a>
                             <div class="dropdown-menu dropdown-menu-right user-dd animated flipInY">
-                                <a class="dropdown-item" href="javascript:void(0)"><i data-feather="folder-plus"
-                                        class="svg-icon mr-2 ml-1"></i>
+                               @if(Auth::user()->isAdmin() || Auth::user()->isTeacher())
+                                <a class="dropdown-item" href="{{url('add/course')}}"><i data-feather="folder-plus"
+                                    class="svg-icon mr-2 ml-1"></i>
                                     Добавить новый курс</a>
-                                <a class="dropdown-item" href="javascript:void(0)"><i data-feather="plus"
+                                <a class="dropdown-item" href="{{url('edit/course')}}"><i data-feather="edit-3"
                                         class="svg-icon mr-2 ml-1"></i>
-                                    Добавить новый урок</a>
+                                    Редактировать курс </a>
+                               
+                               @endif
+                               @if(Auth::user()->isAdmin())
+                                    <a class="dropdown-item" href="{{url('/manage/courses')}}"><i data-feather="grid"
+                                            class="svg-icon mr-2 ml-1"></i>
+                                            Управление курсами </a>
+                                @endif
                                 
                                 <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" href="javascript:void(0)"><i data-feather="power"
+                                <a class="dropdown-item" href="{{url('logout')}}"><i data-feather="power"
                                         class="svg-icon mr-2 ml-1"></i>
                                     Выйти</a>                             
                             </div>
@@ -232,24 +239,31 @@
                 <!-- Sidebar navigation-->
                 <nav class="sidebar-nav">
                     <ul id="sidebarnav">
-                        <li class="sidebar-item"> <a class="sidebar-link sidebar-link" href="index.html"
+                        <li class="sidebar-item"> <a class="sidebar-link sidebar-link" href="{{url('home')}}"
                                 aria-expanded="false"><i data-feather="home" class="feather-icon"></i><span
                                     class="hide-menu">Главная</span></a></li>
                         <li class="list-divider"></li>
                         <li class="nav-small-cap"><span class="hide-menu">Мой StarkID</span></li>
 
-                        <li class="sidebar-item"> <a class="sidebar-link" href="ticket-list.html"
+                        <li class="sidebar-item"> <a class="sidebar-link" href="{{url('courses')}}"
                                 aria-expanded="false"><i data-feather="book-open" class="feather-icon"></i><span
                                     class="hide-menu">Курсы
                                 </span></a>
                         </li>
-                        <li class="sidebar-item"> <a class="sidebar-link sidebar-link" href="app-chat.html"
+                        <li class="sidebar-item"> <a class="sidebar-link sidebar-link" href="{{url('awards')}}"
                                 aria-expanded="false"><i data-feather="award" class="feather-icon"></i><span
                                     class="hide-menu">Мои успехи</span></a></li>
                         
-                        <li class="sidebar-item"> <a class="sidebar-link sidebar-link" href="authentication-login1.html"
+                        <li class="sidebar-item"> 
+                            <a class="sidebar-link sidebar-link" href="{{ route('logout') }}" onclick="event.preventDefault();
+                                document.getElementById('logout-form').submit();"
                                 aria-expanded="false"><i data-feather="log-out" class="feather-icon"></i><span
-                                    class="hide-menu">Выйти</span></a></li>
+                                    class="hide-menu">Выйти</span>
+                            </a>
+                            <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                                @csrf
+                            </form>        
+                        </li>
                     </ul>
                 </nav>
                 <!-- End Sidebar navigation -->
@@ -277,7 +291,9 @@
             <!-- Container fluid  -->
             <!-- ============================================================== -->
             <div class="container-fluid">
-                @yield('container')
+                <div id="app">
+                    @yield('container')
+                </div>
             </div>
             <!-- ============================================================== -->
             <!-- End Container fluid  -->
@@ -304,10 +320,14 @@
     <!-- ============================================================== -->
     <!-- All Jquery -->
     <!-- ============================================================== -->
+    
     <script src="{{asset('assets/libs/jquery/dist/jquery.min.js')}}"></script>
+    <script src="{{asset('/js/app.js')}}"></script>
     <script src="{{asset('assets/libs/popper.js/dist/umd/popper.min.js')}}"></script>
     <script src="{{asset('assets/libs/bootstrap/dist/js/bootstrap.min.js')}}"></script>
+ 
     <!-- apps -->
+    
     <!-- apps -->
     <script src="{{asset('dist/js/app-style-switcher.js')}}"></script>
     <script src="{{asset('dist/js/feather.min.js')}}"></script>
@@ -318,11 +338,11 @@
     <!--This page JavaScript -->
     <script src="{{asset('assets/extra-libs/c3/d3.min.js')}}"></script>
     <script src="{{asset('assets/extra-libs/c3/c3.min.js')}}"></script>
-    <script src="{{asset('assets/libs/chartist/dist/chartist.min.js')}}"></script>
-    <script src="{{asset('assets/libs/chartist-plugin-tooltips/dist/chartist-plugin-tooltip.min.js')}}"></script>
+    {{-- <script src="{{asset('assets/libs/chartist/dist/chartist.min.js')}}"></script>
+    <script src="{{asset('assets/libs/chartist-plugin-tooltips/dist/chartist-plugin-tooltip.min.js')}}"></script> --}}
     <script src="{{asset('assets/extra-libs/jvector/jquery-jvectormap-2.0.2.min.js')}}"></script>
     <script src="{{asset('assets/extra-libs/jvector/jquery-jvectormap-world-mill-en.js')}}"></script>
-    <script src="{{asset('dist/js/pages/dashboards/dashboard1.min.js')}}"></script>
+    {{-- <script src="{{asset('dist/js/pages/dashboards/dashboard1.min.js')}}"></script> --}}
 
     <script src="https://cdn.plyr.io/3.6.2/plyr.js"></script>
     <script src="https://cdn.jsdelivr.net/gh/gitbrent/bootstrap4-toggle@3.6.1/js/bootstrap4-toggle.min.js"></script>

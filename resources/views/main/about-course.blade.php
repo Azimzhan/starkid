@@ -59,7 +59,7 @@
                         <h4 class="mt-2"><i class="fas fa-info"></i></h4>
                         <p class="mt-3">Вы действительно хотите продолжить обучение?</p>
                         <button type="button" class="btn btn-outline-secondary my-2" data-dismiss="modal">Нет</button>
-                        <a href="#" class="btn btn-outline-success my-2" data-dismiss="modal">Начать обучение</a>
+                        <a href="{{url('/lessons-info')}}" class="btn btn-outline-success my-2">Начать обучение</a>
                     </div>
                 </div>
             </div>

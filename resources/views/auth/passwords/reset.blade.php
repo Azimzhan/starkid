@@ -1,65 +1,49 @@
-@extends('layouts.app')
+@extends('layouts.auth')
 
 @section('content')
-<div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card">
-                <div class="card-header">{{ __('Reset Password') }}</div>
+<div class="w-full max-w-xs">
+    <form method="POST" action="{{ route('password.update') }}" class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
+        @csrf
+        <input type="hidden" name="token" value="{{ $token }}">
 
-                <div class="card-body">
-                    <form method="POST" action="{{ route('password.update') }}">
-                        @csrf
-
-                        <input type="hidden" name="token" value="{{ $token }}">
-
-                        <div class="form-group row">
-                            <label for="email" class="col-md-4 col-form-label text-md-right">{{ __('E-Mail Address') }}</label>
-
-                            <div class="col-md-6">
-                                <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ $email ?? old('email') }}" required autocomplete="email" autofocus>
-
-                                @error('email')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
-                            </div>
-                        </div>
-
-                        <div class="form-group row">
-                            <label for="password" class="col-md-4 col-form-label text-md-right">{{ __('Password') }}</label>
-
-                            <div class="col-md-6">
-                                <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="new-password">
-
-                                @error('password')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
-                            </div>
-                        </div>
-
-                        <div class="form-group row">
-                            <label for="password-confirm" class="col-md-4 col-form-label text-md-right">{{ __('Confirm Password') }}</label>
-
-                            <div class="col-md-6">
-                                <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required autocomplete="new-password">
-                            </div>
-                        </div>
-
-                        <div class="form-group row mb-0">
-                            <div class="col-md-6 offset-md-4">
-                                <button type="submit" class="btn btn-primary">
-                                    {{ __('Reset Password') }}
-                                </button>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
+        <div class="mb-4">
+        <label class="block text-gray-700 text-sm font-thin mb-2" for="username">
+        Email
+        </label>
+        <input class="shadow appearance-none border rounded w-full {{ $errors->has('email') ? 'border-red-500' : '' }} py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="email" type="email" name="email" value="{{ old('email') }}" required autocomplete="email" autofocus placeholder="Email">
+        @if ($errors->has('email'))
+                <p class="text-red-500 text-xs italic py-2">{{ $errors->first('email') }}</p>
+        @endif
     </div>
+    <div class="mb-6">
+        <label class="block text-gray-700 text-sm font-thin mb-2" for="password">
+        Пароль
+        </label>
+        <input class="shadow appearance-none border {{ $errors->has('password') ? 'border-red-500' : '' }} rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline" id="password" type="password" name="password" required autocomplete="new-password" placeholder="******************">
+        
+        @if ($errors->has('password'))
+            <p class="text-red-500 text-xs italic py-2">{{ $errors->first('password') }}</p>
+        @endif
+    </div>
+    <div class="mb-6">
+        <label class="block text-gray-700 text-sm font-thin mb-2" for="password-confirm">
+        Подверждение пароля
+        </label>
+        <input id="password-confirm" type="password" class="shadow appearance-none border {{ $errors->has('password') ? 'border-red-500' : '' }} rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline" name="password_confirmation"  required autocomplete="new-password"   placeholder="******************">
+        
+        @if ($errors->has('password'))
+            <p class="text-red-500 text-xs italic py-2">{{ $errors->first('password') }}</p>
+        @endif
+    </div>
+    <div class="flex items-center justify-between">
+        <button class="bg-btn hover:bg-blue-600 text-white font-thin py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="submit">
+            Сбросить пароль
+        </button>
+    
+    </div>
+    </form>
+    <p class="text-center text-gray-500 text-xs">
+    &copy;2020 Stark-edu.kz. Все права защишены.
+    </p>
 </div>
 @endsection
